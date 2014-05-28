@@ -46,19 +46,19 @@ public class Maze {
             
             Point p = new Point(px,py);
             
-            List<List<Point>> list = new ArrayList<List<Point>>();
+            List<List<Point>> adjacentLists = new ArrayList<List<Point>>();
             
             for (List<Point> l : sets) {
                 for (int i=0;i<4;i++) {
                     Point pa = p.getAdjacent(i);
                     if (l.contains(pa)) {
-                        list.add(l);
+                        adjacentLists.add(l);
                     }
                 }
             }
             
             System.out.println("-" + p + "-");
-            for(List<Point> l : list) {
+            for(List<Point> l : adjacentLists) {
                 for (Point po : l)
                     System.out.println(po);
             }
@@ -66,11 +66,11 @@ public class Maze {
             
             boolean god = true;
             
-            for (int i=0;i<list.size();i++) {
-                for (int j=0;j<list.size();j++)  {
+            for (int i=0;i<adjacentLists.size();i++) {
+                for (int j=0;j<adjacentLists.size();j++)  {
                     if (i==j)
                         continue;
-                    if (list.get(i) == list.get(j)) {
+                    if (adjacentLists.get(i).equals(adjacentLists.get(j))) {
                         System.out.println("Asd");
                         god = false;
                     }
@@ -80,9 +80,9 @@ public class Maze {
             if (!god)
                 continue;
             
-            for (int i=1;i<list.size();i++) {
-                list.get(0).addAll(list.get(i));
-                sets.remove(list.get(i));
+            for (int i=1;i<adjacentLists.size();i++) {
+                adjacentLists.get(0).addAll(adjacentLists.get(i));
+                sets.remove(adjacentLists.get(i));
             }
             
             tiles[px][py] = true;
