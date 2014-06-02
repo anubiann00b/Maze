@@ -8,8 +8,6 @@ public class Maze {
     private boolean[][] tiles;
     private int width;
     private int height;
-    private int count;
-    private int area;
     
     private static final boolean FLOOR = false;
     private static final boolean WALL = true;
@@ -20,8 +18,6 @@ public class Maze {
         tiles = new boolean[w][h];
         width = w;
         height = h;
-        count = 0;
-        area = w*h;
         
         sets = new ArrayList<>();
         
@@ -63,22 +59,11 @@ public class Maze {
                 }
             }
             
-            if (adjacentLists.size() == 0)
+            if (adjacentLists.isEmpty())
                 continue;
             
-            /*
-            System.out.println("-" + p + "-");
-            for(List<Point> l : adjacentLists) {
-                for (Point po : l)
-                    System.out.println(po);
-            }
-            System.out.println();
-            */
-            
             boolean god = true;
-            
-            System.out.println(this.toString(px,py));
-            
+                        
             outside:
             for (int i=0;i<adjacentLists.size();i++) {
                 for (int j=0;j<adjacentLists.size();j++)  {
@@ -119,23 +104,8 @@ public class Maze {
         return s.toString();
     }
     
-    public String toString(int x, int y) {
-        StringBuilder s = new StringBuilder();
-        for (int i=0;i<tiles.length;i++) {
-            for (int j=0;j<tiles[0].length;j++) {
-                if (i==x && j==y)
-                    s.append('X');
-                else
-                    s.append(tiles[i][j]==FLOOR?'.':'#');
-            }
-            s.append('\n');
-        }
-        return s.toString();
-    }
-    
     public static void main(String[] args) {
         Maze maze = new Maze(15,15);
-        System.out.println(maze);
         maze.generateMaze();
         System.out.println(maze);
     }
