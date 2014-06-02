@@ -11,6 +11,9 @@ public class Maze {
     private int count;
     private int area;
     
+    private static final boolean FLOOR = false;
+    private static final boolean WALL = true;
+    
     private List<List<Point>> sets;
     
     public Maze(int w, int h) {
@@ -25,10 +28,12 @@ public class Maze {
         for (int i=0;i<w;i++) {
             for (int j=0;j<h;j++) {
                 if (i%2==1 && j%2==1) {
-                    tiles[i][j] = true;
+                    tiles[i][j] = FLOOR;
                     List<Point> l = new ArrayList<Point>();
                     l.add(new Point(i,j));
                     sets.add(l);
+                } else {
+                    tiles[i][j] = WALL;
                 }
             }
         }
@@ -42,37 +47,50 @@ public class Maze {
             do {
                 px = (int)(width*Math.random());
                 py = (int)(height*Math.random());
-            } while (tiles[px][py]);
+            } while (tiles[px][py] == FLOOR);
             
             Point p = new Point(px,py);
             
             List<List<Point>> adjacentLists = new ArrayList<List<Point>>();
             
-            for (List<Point> l : sets) {
-                for (int i=0;i<4;i++) {
-                    Point pa = p.getAdjacent(i);
+            for (int i=0;i<4;i++) {
+                Point pa = p.getAdjacent(i);
+                for (List<Point> l : sets) {
                     if (l.contains(pa)) {
                         adjacentLists.add(l);
+                        break;
                     }
                 }
             }
             
+            if (adjacentLists.size() == 0)
+                continue;
+            
+            /*
             System.out.println("-" + p + "-");
             for(List<Point> l : adjacentLists) {
                 for (Point po : l)
                     System.out.println(po);
             }
             System.out.println();
+            */
             
             boolean god = true;
             
+            System.out.println(this.toString(px,py));
+            
+            outside:
             for (int i=0;i<adjacentLists.size();i++) {
                 for (int j=0;j<adjacentLists.size();j++)  {
                     if (i==j)
                         continue;
-                    if (adjacentLists.get(i).equals(adjacentLists.get(j))) {
-                        System.out.println("Asd");
-                        god = false;
+                    for (Point p1 : adjacentLists.get(i)) {
+                        for (Point p2 : adjacentLists.get(j)) {
+                            if (p1.equals(p2)) {
+                                god = false;
+                                break outside;
+                            }
+                        }
                     }
                 }
             }
@@ -85,7 +103,7 @@ public class Maze {
                 sets.remove(adjacentLists.get(i));
             }
             
-            tiles[px][py] = true;
+            tiles[px][py] = FLOOR;
         }
     }
     
@@ -94,7 +112,21 @@ public class Maze {
         StringBuilder s = new StringBuilder();
         for (boolean[] inner : tiles) {
             for (boolean b : inner) {
-                s.append(b?'.':'#');
+                s.append(b==FLOOR?'.':'#');
+            }
+            s.append('\n');
+        }
+        return s.toString();
+    }
+    
+    public String toString(int x, int y) {
+        StringBuilder s = new StringBuilder();
+        for (int i=0;i<tiles.length;i++) {
+            for (int j=0;j<tiles[0].length;j++) {
+                if (i==x && j==y)
+                    s.append('X');
+                else
+                    s.append(tiles[i][j]==FLOOR?'.':'#');
             }
             s.append('\n');
         }
@@ -124,9 +156,7 @@ public class Maze {
         
         @Override
         public boolean equals(Object o) {
-            if (o == null)
-                return false;
-            if (!(o instanceof Point))
+            if (o == null || !(o instanceof Point))
                 return false;
             Point p = (Point) o;
             return p.x==x && p.y==y;
