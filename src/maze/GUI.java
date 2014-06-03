@@ -9,36 +9,42 @@ import javax.swing.JScrollPane;
 
 public class GUI extends JFrame {
     
-    private static final int width = 16;
-    private static final int height = 16;
+    private static final int defaultWidth = 64;
+    private static final int defaultHeight = 64;
+    
+    private static final int windowWidth = 640;
+    private static final int windowHeight = 480;
     
     private Screen frame;
     
     public GUI(int w, int h) {
         super();
         
-        setLocation(200,200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setMaximumSize(new Dimension(640,480));
         setVisible(true);
         setTitle("Maze");
         
         frame = new Screen(w,h);
         frame.setMaze(Maze.genMaze(w,h));
         
-        setPreferredSize(new Dimension(Math.min(w*16,640),Math.min(h*16,480)));
+        Dimension size = new Dimension(Math.min(w*16,windowWidth),Math.min(h*16,windowHeight));
         
-        if (w*16 > 640 || h*16 > 480) {
+        if (w*16>windowWidth || h*16>windowHeight) {
+            setPreferredSize(size);
             JScrollPane scrollPane = new JScrollPane(frame);
             add(scrollPane);
         } else {
+            setSize(size);
             add(frame);
         }
         pack();
     }
     
     public static void main(String[] args) {
+        int width = args.length==2 ? Integer.valueOf(args[0]) : defaultWidth;
+        int height = args.length==2 ? Integer.valueOf(args[1]) : defaultHeight;
+        
         GUI window = new GUI(width,height);
         window.repaint();
     }
@@ -54,7 +60,6 @@ class Screen extends JPanel {
     private Maze maze;
     
     public Screen(int w, int h) {
-        //setPreferredSize(new Dimension(Math.min(w*16,640),Math.min(h*16,480)));
         setPreferredSize(new Dimension(w*16,h*16));
     }
     
