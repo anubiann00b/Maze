@@ -14,6 +14,14 @@ public class Maze {
     
     private List<List<Point>> sets;
     
+    public static Maze genMaze(int w, int h) {
+        Maze maze = new Maze(w,h);
+        maze.generateMaze();
+        return maze;
+    }
+    
+    public boolean[][] getTiles() { return tiles; }
+    
     public Maze(int w, int h) {
         tiles = new boolean[w][h];
         width = w;
@@ -102,12 +110,6 @@ public class Maze {
             s.append('\n');
         }
         return s.toString();
-    }
-    
-    public static void main(String[] args) {
-        Maze maze = new Maze(15,15);
-        maze.generateMaze();
-        System.out.println(maze);
     }
     
     class Point {
