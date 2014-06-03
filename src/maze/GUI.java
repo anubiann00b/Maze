@@ -20,13 +20,15 @@ public class GUI extends JFrame {
     public GUI(int w, int h) {
         super();
         
+        Maze maze = Maze.genMaze(w,h);
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
         setTitle("Maze");
         
         frame = new Screen(w,h);
-        frame.setMaze(Maze.genMaze(w,h));
+        frame.setMaze(maze);
         
         Dimension size = new Dimension(Math.min(w*16,windowWidth),Math.min(h*16,windowHeight));
         
