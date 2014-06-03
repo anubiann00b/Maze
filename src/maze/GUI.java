@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 public class GUI extends JFrame {
     
@@ -16,16 +17,24 @@ public class GUI extends JFrame {
     public GUI(int w, int h) {
         super();
         
+        setLocation(200,200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setSize(new Dimension(width*16,height*16));
+        setMaximumSize(new Dimension(640,480));
         setVisible(true);
         setTitle("Maze");
         
         frame = new Screen(w,h);
-        frame.setMaze(Maze.genMaze(width,height));
+        frame.setMaze(Maze.genMaze(w,h));
         
-        add(frame);
+        setPreferredSize(new Dimension(Math.min(w*16,640),Math.min(h*16,480)));
+        
+        if (w*16 > 640 || h*16 > 480) {
+            JScrollPane scrollPane = new JScrollPane(frame);
+            add(scrollPane);
+        } else {
+            add(frame);
+        }
         pack();
     }
     
@@ -45,6 +54,7 @@ class Screen extends JPanel {
     private Maze maze;
     
     public Screen(int w, int h) {
+        //setPreferredSize(new Dimension(Math.min(w*16,640),Math.min(h*16,480)));
         setPreferredSize(new Dimension(w*16,h*16));
     }
     
