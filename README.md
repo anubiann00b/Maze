@@ -1,6 +1,4 @@
 Maze
 ====
 
-APCS Homework.
-
-I went full-out with swing.
+BETTER THAN TARIK'S (https://github.com/QuantumPhi/Maze).
