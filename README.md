@@ -1,4 +1,4 @@
 Maze
 ====
 
-APCS Homework...
+BETTER THAN TARIK'S (https://github.com/QuantumPhi/Maze).
