@@ -35,6 +35,8 @@ public class GUI extends JFrame {
         if (w*16>windowWidth || h*16>windowHeight) {
             setPreferredSize(size);
             JScrollPane scrollPane = new JScrollPane(frame);
+            scrollPane.getVerticalScrollBar().setUnitIncrement(4);
+            scrollPane.getHorizontalScrollBar().setUnitIncrement(4);
             add(scrollPane);
         } else {
             setSize(size);
