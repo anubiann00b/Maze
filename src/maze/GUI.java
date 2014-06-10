@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class GUI extends JFrame {
     
@@ -48,6 +50,13 @@ public class GUI extends JFrame {
     public static void main(String[] args) {
         int width = args.length==2 ? Integer.valueOf(args[0]) : defaultWidth;
         int height = args.length==2 ? Integer.valueOf(args[1]) : defaultHeight;
+        
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException| UnsupportedLookAndFeelException e) {
+            System.out.println("Error loading look and feel: " + e);
+        }
         
         GUI window = new GUI(width,height);
         window.repaint();
